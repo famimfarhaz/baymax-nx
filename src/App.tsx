@@ -187,7 +187,7 @@ function App() {
             </div>
 
             {/* Header */}
-            <div className="relative z-10 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border-b border-white/15 p-4 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)]">
+            <div className="relative z-10 bg-[#1a1a1a] border-b border-[#2a2a2a] px-4 py-3">
               <div className="flex items-center justify-between">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -197,22 +197,30 @@ function App() {
                     setMessages([]);
                     setCurrentCode('');
                   }}
-                  className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-blue-200 border border-white/20 shadow-inner"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#2a2a2a] hover:bg-[#333] text-gray-300 hover:text-white transition-colors text-sm"
                 >
-                  ← Back to Home
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Back
                 </motion.button>
                 
-                <div className="flex items-center space-x-3">
-                  <div className="w-3 h-3 bg-green-400 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse"></div>
-                  <span className="text-white font-medium">Baymax-NX Active</span>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-gray-300 text-sm">Baymax-NX</span>
+                  </div>
+                  <button className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-colors">
+                    Publish
+                  </button>
                 </div>
               </div>
             </div>
 
             {/* Main Builder Interface */}
-            <div className="relative z-10 flex-1 flex overflow-hidden">
+            <div className="relative z-10 flex-1 flex overflow-hidden bg-[#0d0d0d]">
               {/* Chat Panel */}
-              <div className="w-1/2 border-r border-white/10">
+              <div className="w-1/2 border-r border-[#2a2a2a] bg-[#1a1a1a]">
                 <ChatInterface
                   messages={messages}
                   onSendMessage={handleSendMessage}
@@ -223,7 +231,7 @@ function App() {
               </div>
               
               {/* Preview Panel */}
-              <div className="w-1/2">
+              <div className="w-1/2 bg-[#0d0d0d]">
                 <CodePreview code={currentCode} isLoading={isLoading} />
               </div>
             </div>

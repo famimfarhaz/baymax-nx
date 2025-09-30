@@ -57,57 +57,61 @@ export default function CodePreview({ code, isLoading }: CodePreviewProps) {
   };
 
   return (
-    <div className="h-full bg-gradient-to-b from-slate-950/70 to-slate-900/50 backdrop-blur-xl flex flex-col overflow-hidden">
+    <div className="h-full bg-[#0d0d0d] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-white/15 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-2xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)]">
-        <h3 className="text-white font-semibold">Live Preview</h3>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[#2a2a2a] bg-[#1a1a1a]">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+          <span className="text-gray-300 text-sm">Preview</span>
+        </div>
         
-        <div className="flex items-center space-x-2 bg-white/10 rounded-lg p-1 border border-white/20">
+        <div className="flex items-center gap-1 bg-[#2a2a2a] rounded-md p-1">
           {[
             { size: 'desktop' as ViewportSize, icon: Monitor },
             { size: 'tablet' as ViewportSize, icon: Tablet },
             { size: 'mobile' as ViewportSize, icon: Smartphone },
           ].map(({ size, icon: Icon }) => (
-            <motion.button
+            <button
               key={size}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => setViewport(size)}
-              className={`p-2 rounded-md transition-colors ${
+              className={`p-2 rounded transition-colors ${
                 viewport === size
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/20'
-                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-[#333]'
               }`}
               title={`${size} view`}
             >
               <Icon className="w-4 h-4" />
-            </motion.button>
+            </button>
           ))}
         </div>
       </div>
 
       {/* Preview Content */}
-      <div className="flex-1 p-0 bg-gradient-to-br from-slate-900/30 to-slate-950/50 overflow-hidden">
+      <div className="flex-1 bg-[#0d0d0d] overflow-hidden relative">
+        {/* Bolt.new style background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <svg width="100%" height="100%">
+            <defs>
+              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="1"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+        
         {isLoading ? (
-          <div className="h-full flex items-center justify-center">
+          <div className="relative h-full flex items-center justify-center">
             <div className="text-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="w-12 h-12 border-4 border-blue-400/30 border-t-blue-400 rounded-full mx-auto mb-4"
-              />
-              <p className="text-gray-400">Generating your website...</p>
+              <div className="w-8 h-8 border-2 border-gray-600 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-500 text-sm">Your preview will appear here</p>
             </div>
           </div>
         ) : code ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="h-full flex items-center justify-center"
-          >
+          <div className="relative h-full flex items-center justify-center p-4">
             <div 
-              className={`${getViewportClass()} transition-all duration-300 bg-white rounded-lg shadow-2xl overflow-hidden`}
+              className={`${getViewportClass()} transition-all duration-300 bg-white rounded-lg shadow-xl overflow-hidden border border-gray-200`}
             >
               <iframe
                 ref={iframeRef}
@@ -116,12 +120,16 @@ export default function CodePreview({ code, isLoading }: CodePreviewProps) {
                 title="Website Preview"
               />
             </div>
-          </motion.div>
+          </div>
         ) : (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center text-gray-400">
-              <Monitor className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>Your website preview will appear here</p>
+          <div className="relative h-full flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-16 h-16 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 3h18v18H3V3zm16 16V5H5v14h14z"/>
+                </svg>
+              </div>
+              <p className="text-gray-500 text-sm">Your preview will appear here</p>
             </div>
           </div>
         )}
